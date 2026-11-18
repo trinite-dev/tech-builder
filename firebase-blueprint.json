@@ -1,0 +1,42 @@
+{
+  "entities": {
+    "Task": {
+      "properties": {
+        "id": { "type": "string", "maxLength": 100 },
+        "title": { "type": "string", "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "categoryId": { "type": "string", "maxLength": 100 },
+        "priority": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "maxLength": 50 },
+        "dueDate": { "type": "string", "maxLength": 50 },
+        "userId": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      }
+    },
+    "Category": {
+      "properties": {
+        "id": { "type": "string", "maxLength": 100 },
+        "name": { "type": "string", "maxLength": 100 },
+        "color": { "type": "string", "maxLength": 100 },
+        "icon": { "type": "string", "maxLength": 50 },
+        "description": { "type": "string", "maxLength": 500 },
+        "userId": { "type": "string", "maxLength": 100 }
+      }
+    }
+  },
+  "firestore": {
+    "paths": {
+      "/tasks/{taskId}": {
+        "schema": "Task",
+        "read": "request.auth != null && resource.data.userId == request.auth.uid",
+        "write": "request.auth != null && (resource == null || resource.data.userId == request.auth.uid) && request.resource.data.userId == request.auth.uid"
+      },
+      "/categories/{catId}": {
+        "schema": "Category",
+        "read": "request.auth != null && resource.data.userId == request.auth.uid",
+        "write": "request.auth != null && (resource == null || resource.data.userId == request.auth.uid) && request.resource.data.userId == request.auth.uid"
+      }
+    }
+  }
+}
